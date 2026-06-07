@@ -12,10 +12,22 @@
             background-color: #ffffff;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
             overflow: hidden;
+        }
+
+        /* Top center logo container */
+        .logo-container {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .logo-container img {
+            width: 220px; /* Adjust size of your logo here */
+            height: auto;
         }
 
         .container {
@@ -90,9 +102,20 @@
         .submit-btn {
             margin-top: 25px;
         }
+
+        /* Thank You Text styling */
+        .thank-you-text {
+            font-size: 28px;
+            font-weight: bold;
+            color: #000000;
+        }
     </style>
 </head>
 <body>
+
+    <div class="logo-container">
+        <img src="file_00000000f95871fa94e929d0d7969f29.png" alt="Turboshot Logo">
+    </div>
 
     <div id="landing-screen" class="container">
         <button class="btn" onclick="showSignUp()">Sign Up</button>
@@ -112,25 +135,22 @@
         </form>
     </div>
 
+    <div id="thankyou-screen" class="container hidden">
+        <div class="thank-you-text">Thank You</div>
+    </div>
+
     <script>
-        // Switch from Landing Screen to Form Screen
         function showSignUp() {
             document.getElementById('landing-screen').classList.add('hidden');
             document.getElementById('form-screen').classList.remove('hidden');
         }
 
-        // Validate Phone and Complete Sign Up
         function handleSignUp(event) {
-            event.preventDefault(); // Stop page refresh
+            event.preventDefault();
             
             const phoneInput = document.getElementById('phone').value.trim();
             const errorDiv = document.getElementById('phone-error');
             
-            // Regex Breakdown:
-            // ^\+ matches the mandatory "+" sign
-            // [1-9]\d{0,3} matches a valid country code (1 to 4 digits, cannot start with 0)
-            // \s? allows an optional space after country code
-            // \d{9,11}$ matches exactly 9 to 11 digits for the core number
             const phoneRegex = /^\+[1-9]\d{0,3}\s?\d{9,11}$/;
 
             if (!phoneRegex.test(phoneInput)) {
@@ -138,14 +158,11 @@
                 return;
             }
 
-            // If validation passes
             errorDiv.innerText = "";
-            alert("Sign up complete! Welcome to Turboshot.");
-            
-            // You can reset the form or redirect the user here
-            document.getElementById('signup-form').reset();
             document.getElementById('form-screen').classList.add('hidden');
-            document.getElementById('landing-screen').classList.remove('hidden');
+            document.getElementById('thankyou-screen').classList.remove('hidden');
+            
+            document.getElementById('signup-form').reset();
         }
     </script>
 </body>
