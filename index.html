@@ -21,12 +21,15 @@
 
         /* Top center logo container */
         .logo-container {
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .logo-container img {
-            width: 220px; /* Adjust size of your logo here */
+            width: 240px; /* Slightly bigger so your awesome rocket stands out */
             height: auto;
         }
 
@@ -114,7 +117,7 @@
 <body>
 
     <div class="logo-container">
-        <img src="file_00000000f95871fa94e929d0d7969f29.png" alt="Turboshot Logo">
+        <img src="file_00000000f95871fa94e929d0d7969f29.png?v=1" alt="Turboshot Logo">
     </div>
 
     <div id="landing-screen" class="container">
@@ -140,6 +143,11 @@
     </div>
 
     <script>
+        // Navigation functions
+        if (window.history.replaceState) {
+            window.history.replaceState(null, null, window.location.href);
+        }
+
         function showSignUp() {
             document.getElementById('landing-screen').classList.add('hidden');
             document.getElementById('form-screen').classList.remove('hidden');
@@ -167,3 +175,4 @@
     </script>
 </body>
 </html>
+
