@@ -11,45 +11,57 @@
     <style>
         body {
             margin: 0; padding: 0; 
-            background: radial-gradient(circle at 50% 50%, #fcfcfd 0%, #efeef4 100%);
+            background: linear-gradient(135deg, #f4f5f9 0%, #e9ecf5 100%);
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             display: flex; flex-direction: column; align-items: center; min-height: 100vh;
             color: #0f1419;
         }
         
+        /* Fixed Header Grid Layout - Stops Text Clipping completely */
         .logo-container { 
-            margin-top: 25px; margin-bottom: 25px; text-align: center; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            margin: 25px 0; text-align: center; transition: all 0.3s ease;
         }
         .logo-container img { width: 190px; height: auto; }
 
         body.on-platform .logo-container {
-            position: absolute; top: 15px; left: 20px; margin: 0; text-align: left; z-index: 100;
+            position: relative;
+            width: 90%;
+            max-width: 550px;
+            margin: 20px 0 10px 0;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            text-align: left;
         }
-        body.on-platform .logo-container img { width: 125px; }
+        body.on-platform .logo-container img { width: 120px; }
 
         .container { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; width: 100%; max-width: 480px; padding: 24px; box-sizing: border-box; }
         .hidden { display: none !important; }
         
-        .btn { background-color: #000000; color: #ffffff; border: none; padding: 14px 32px; font-size: 16px; font-weight: 700; border-radius: 30px; cursor: pointer; transition: transform 0.2s, background-color 0.2s; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-        .btn:hover { transform: scale(1.03); }
+        .btn { background-color: #000000; color: #ffffff; border: none; padding: 14px 32px; font-size: 16px; font-weight: 700; border-radius: 30px; cursor: pointer; transition: transform 0.2s, background-color 0.2s; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+        .btn:hover { transform: scale(1.02); background-color: #1a1a1a; }
         .secondary-btn { background-color: #ffffff; color: #000000; border: 2px solid #000000; margin-top: 14px; box-shadow: none; }
+        .action-btn { padding: 6px 14px; font-size: 13px; border-radius: 15px; font-weight: 600; margin-left: 6px; }
+        .reject-btn { background-color: #eff3f4; color: #f4212e; }
 
         .form-group { display: flex; flex-direction: column; align-items: center; width: 100%; gap: 16px; }
-        input, select, textarea { width: 88%; padding: 14px 16px; font-size: 16px; border: 1px solid #e1e8ed; border-radius: 12px; outline: none; text-align: center; font-family: inherit; background-color: #ffffff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.02); }
-        input:focus, select:focus, textarea:focus { border-color: #4364F7; box-shadow: 0 0 0 3px rgba(67,100,247,0.1); }
-        .error-msg { color: #f4212e; font-size: 14px; margin-top: -6px; width: 88%; font-weight: 500; }
+        input, select, textarea { width: 90%; padding: 14px 16px; font-size: 16px; border: 1px solid #e1e8ed; border-radius: 14px; outline: none; text-align: center; font-family: inherit; background-color: #ffffff; box-sizing: border-box; }
+        input:focus, select:focus, textarea:focus { border-color: #4364F7; box-shadow: 0 0 0 3px rgba(67,100,247,0.08); }
+        .error-msg { color: #f4212e; font-size: 14px; margin-top: -6px; width: 90%; font-weight: 500; }
         
-        /* Premium X + TikTok Horizontal Stories */
+        /* Modern Floaty Section Cards */
+        .app-card { background: #ffffff; padding: 22px; border-radius: 24px; width: 94%; box-sizing: border-box; box-shadow: 0 10px 30px rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.01); margin-bottom: 20px; }
+        
+        /* Network Connection Dashboard styling */
+        .friend-row { display: flex; align-items: center; justify-content: space-between; background: #f7f9fa; padding: 10px 14px; border-radius: 14px; margin-top: 8px; width: 100%; box-sizing: border-box; }
+        .friend-info { font-weight: 700; font-size: 14px; color: #0f1419; }
+
+        /* Stories Row Layout updates */
         .trending-wrapper { width: 94%; margin-bottom: 20px; text-align: left; }
-        .trending-title { font-size: 13px; font-weight: 800; color: #536471; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.8px; padding-left: 4px; }
+        .trending-title { font-size: 13px; font-weight: 800; color: #536471; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.8px; }
         .trending-container { display: flex; gap: 14px; overflow-x: auto; width: 100%; padding-bottom: 10px; scrollbar-width: none; }
         .trending-container::-webkit-scrollbar { display: none; }
         
-        .story-card { flex: 0 0 90px; height: 130px; background: linear-gradient(145deg, #0f172a, #1e293b); border-radius: 16px; display: flex; flex-direction: column; justify-content: flex-end; padding: 10px; box-sizing: border-box; color: #ffffff; font-size: 11px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 14px rgba(0,0,0,0.15); transition: transform 0.2s, box-shadow 0.2s; position: relative; overflow: hidden; border: 1.5px solid rgba(255,255,255,0.1); }
-        .story-card:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(67,100,247,0.3); }
-        .story-username { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; z-index: 2; text-shadow: 0 1px 4px rgba(0,0,0,0.6); }
-        .story-likes { font-size: 10px; background: rgba(255, 255, 255, 0.2); padding: 2px 6px; border-radius: 20px; width: fit-content; margin-top: 4px; z-index: 2; backdrop-filter: blur(4px); }
-
-        /* Creator Shell Panel Layout */
-        .creator-panel { background: #ffffff; padding: 22px; border-radius: 24px; width: 94%; box-sizing: border-box
-
+        .story-card { flex: 0 0 95px; height: 130px; background: linear-gradient(145deg, #1e293b, #0f172a); border-radius: 16px; display: flex; flex-direction: column; justify-content: flex-end; padding: 12px; box-sizing: border-box; color: #ffffff; font-size: 12px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 14px rgba(0,0,0,0.1); position: relative; overflow: hidden; }
+        .story-username { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .story-likes { font-size: 10px; background: rgba(255,
