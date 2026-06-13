@@ -47,12 +47,15 @@
         .form-group { display: flex; flex-direction: column; align-items: center; width: 100%; gap: 16px; }
         input, select, textarea { width: 90%; padding: 14px 16px; font-size: 16px; border: 1px solid #e1e8ed; border-radius: 14px; outline: none; text-align: center; font-family: inherit; background-color: #ffffff; box-sizing: border-box; }
         input:focus, select:focus, textarea:focus { border-color: #4364F7; box-shadow: 0 0 0 3px rgba(67,100,247,0.08); }
-        .error-msg { color: #f4212e; font-size: 14px; margin-top: -6px; width: 90%; font-weight: 500; }
+        .error-msg { color: #f4212e; font-size: 14px; margin-top: -5px; width: 90%; font-weight: 500; }
         
         .app-card { background: #ffffff; padding: 22px; border-radius: 24px; width: 94%; box-sizing: border-box; box-shadow: 0 10px 30px rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.01); margin-bottom: 20px; }
         
+        /* Fixed Connections Panels Layout styles */
         .friend-row { display: flex; align-items: center; justify-content: space-between; background: #f7f9fa; padding: 10px 14px; border-radius: 14px; margin-top: 8px; width: 100%; box-sizing: border-box; }
         .friend-info { font-weight: 700; font-size: 14px; color: #0f1419; }
+        .status-msg-text { font-size: 13px; color: #536471; text-align: left; font-weight: 600; padding: 4px 2px; line-height: 1.4; }
+        .status-success { color: #00ba7c !important; }
 
         .trending-wrapper { width: 94%; margin-bottom: 20px; text-align: left; }
         .trending-title { font-size: 13px; font-weight: 800; color: #536471; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.8px; }
@@ -79,18 +82,18 @@
 </head>
 <body>
 
-    <!-- Dynamic Header -->
+    <!-- Dynamic Header Placement Wrapper -->
     <div class="logo-container" id="main-logo-wrap">
         <img src="file_00000000f95871fa94e929d0d7969f29.png" alt="Turboshot Logo" onerror="this.src='1001333783.png';">
     </div>
 
-    <!-- SCREEN 1: Entry Portal -->
+    <!-- SCREEN 1: Gateway Portal -->
     <div id="landing-screen" class="container">
         <button class="btn" onclick="switchScreen('form-screen')">Sign Up</button>
         <button class="btn secondary-btn" onclick="switchScreen('login-screen')">Login</button>
     </div>
 
-    <!-- SCREEN 2: Registration Panel -->
+    <!-- SCREEN 2: Account Creation Dashboard -->
     <div id="form-screen" class="container hidden">
         <form id="signup-form" class="form-group" onsubmit="handleSignUp(event)">
             <input type="text" id="username" placeholder="Choose Username" required>
@@ -108,7 +111,7 @@
         </form>
     </div>
 
-    <!-- SCREEN 3: Gateway Login Check -->
+    <!-- SCREEN 3: Security Authenticator Check -->
     <div id="login-screen" class="container hidden">
         <form id="login-form" class="form-group" onsubmit="handleLogin(event)">
             <input type="text" id="login-identity" placeholder="Username or Email" required>
@@ -120,23 +123,24 @@
         </form>
     </div>
 
-    <!-- SCREEN 4: Onboarding Welcome Splash -->
+    <!-- SCREEN 4: Access Confirmation Splash -->
     <div id="thankyou-screen" class="container hidden">
         <h1 style="font-size: 32px; font-weight: 900; margin-bottom: 20px; letter-spacing: -0.8px;">Welcome</h1>
         <button class="btn" onclick="goToPlatform()">Continue</button>
     </div>
 
-    <!-- SCREEN 5: Main Feed UI Layer -->
+    <!-- SCREEN 5: Main Hybrid Stream Timeline Hub -->
     <div id="platform-screen" class="container hidden" style="max-width: 580px; padding: 12px;">
         <h2 id="welcome-banner" style="font-size: 24px; font-weight: 900; letter-spacing: -0.6px; width: 94%; text-align: left; margin: 0 0 15px 0;">Feed</h2>
         
-        <!-- Connections Management System -->
+        <!-- Live Connections System Card Panel -->
         <div class="app-card" style="padding: 18px;">
             <div style="font-size: 14px; font-weight: 800; color: #536471; text-transform: uppercase; margin-bottom: 10px; text-align: left; letter-spacing: 0.5px;">🤝 Network Connections</div>
             <div style="display: flex; gap: 8px; width: 100%;">
-                <input type="text" id="friend-search-input" placeholder="Enter user's username..." style="padding: 10px; font-size: 14px; text-align: left; width: 75%;">
+                <input type="text" id="friend-search-input" placeholder="Enter username..." style="padding: 10px; font-size: 14px; text-align: left; width: 75%;">
                 <button class="btn" onclick="sendFriendRequest()" style="padding: 10px 16px; font-size: 14px; border-radius: 12px; width: 25%;">Add</button>
             </div>
+            <!-- Notifications and request metrics map directly inside here -->
             <div id="friend-requests-box" style="margin-top: 10px; width: 100%;"></div>
         </div>
 
@@ -145,7 +149,7 @@
             <div id="trending-stories-row" class="trending-container"></div>
         </div>
         
-        <!-- Creator Composition Dashboard -->
+        <!-- Post Composer Deck Layout -->
         <div class="app-card">
             <textarea id="post-text" placeholder="What's happening flash fast?" rows="3" required style="width:100%; border:none; padding: 5px; text-align: left; resize: none; font-size: 17px;"></textarea>
             
@@ -182,6 +186,36 @@
         let localLikedPostIDs = []; 
         let temporaryEncodedMediaData = ''; 
         let friendsList = [];
+        let clearNotificationTimer = null;
+
+        // Auto-loads on document instance runtime compilation
+        document.addEventListener("DOMContentLoaded", () => {
+            checkActivePersistentSession();
+        });
+
+        // 15-Day Browser Persistent Cache Handlers
+        function saveSessionPersistently(username) {
+            const loginTimestamp = new Date().getTime();
+            localStorage.setItem("turboshot_session_user", username);
+            localStorage.setItem("turboshot_session_time", loginTimestamp);
+        }
+
+        function checkActivePersistentSession() {
+            const savedUser = localStorage.getItem("turboshot_session_user");
+            const savedTime = localStorage.getItem("turboshot_session_time");
+
+            if (savedUser && savedTime) {
+                const ageInDays = (new Date().getTime() - parseInt(savedTime)) / (1000 * 60 * 60 * 24);
+                if (ageInDays < 15) {
+                    currentLoggedUser = savedUser;
+                    goToPlatform();
+                } else {
+                    // Session expired beyond safety margin boundary parameters
+                    localStorage.removeItem("turboshot_session_user");
+                    localStorage.removeItem("turboshot_session_time");
+                }
+            }
+        }
 
         function switchScreen(screenId) {
             document.getElementById('landing-screen').classList.add('hidden');
@@ -226,10 +260,13 @@
                 });
                 const data = await response.json();
                 if (!response.ok) { document.getElementById('username-error').innerText = data.error; return; }
+                
                 currentLoggedUser = data.username;
+                saveSessionPersistently(currentLoggedUser);
                 switchScreen('thankyou-screen');
             } catch (err) {
                 currentLoggedUser = username;
+                saveSessionPersistently(currentLoggedUser);
                 switchScreen('thankyou-screen');
             }
         }
@@ -247,10 +284,13 @@
                 });
                 const data = await response.json();
                 if (!response.ok) { document.getElementById('login-error').innerText = data.error; return; }
+                
                 currentLoggedUser = data.username;
+                saveSessionPersistently(currentLoggedUser);
                 goToPlatform();
             } catch (err) {
                 currentLoggedUser = identity.split('@')[0];
+                saveSessionPersistently(currentLoggedUser);
                 goToPlatform();
             }
         }
@@ -259,6 +299,7 @@
             document.body.classList.add('on-platform');
             document.getElementById('welcome-banner').innerText = `⚡ @${currentLoggedUser}`;
             
+            document.getElementById('landing-screen').classList.add('hidden');
             document.getElementById('thankyou-screen').classList.add('hidden');
             document.getElementById('login-screen').classList.add('hidden');
             document.getElementById('platform-screen').classList.remove('hidden');
@@ -266,10 +307,11 @@
             friendsList = JSON.parse(localStorage.getItem(`friends_${currentLoggedUser}`) || '[]');
             
             renderFeed();
-            renderFriendRequests();
-            setInterval(() => { renderFeed(); renderFriendRequests(); }, 4000);
+            renderFriendRequests(false);
+            setInterval(() => { renderFeed(); }, 4000);
         }
 
+        // Friends Feature Request Pipelines
         function sendFriendRequest() {
             const targetUser = document.getElementById('friend-search-input').value.trim().toLowerCase();
             if (!targetUser || targetUser === currentLoggedUser.toLowerCase()) return;
@@ -280,16 +322,34 @@
                 localStorage.setItem(`requests_${targetUser}`, JSON.stringify(currentRequests));
             }
             document.getElementById('friend-search-input').value = '';
-            alert(`Friend request sent to @${targetUser}!`);
+            
+            // Re-renders view immediately triggering the green notification string wrapper block
+            renderFriendRequests(true);
         }
 
-        function renderFriendRequests() {
+        function renderFriendRequests(showSentNotification) {
             const box = document.getElementById('friend-requests-box');
             let incoming = JSON.parse(localStorage.getItem(`requests_${currentLoggedUser.toLowerCase()}`) || '[]');
             box.innerHTML = '';
 
+            // Clear any lingering async timeouts
+            if (clearNotificationTimer && !showSentNotification) {
+                clearTimeout(clearNotificationTimer);
+            }
+
+            if (showSentNotification) {
+                box.innerHTML = `<div class="status-msg-text status-success">Friends Request Sent</div>`;
+                
+                // Triggers structural fallback rendering back to the base loop after exactly 30 seconds
+                clearNotificationTimer = setTimeout(() => {
+                    renderFriendRequests(false);
+                }, 30000);
+                return;
+            }
+
+            // Normal Structural Fallback Mode execution loop
             if (incoming.length === 0 && friendsList.length === 0) {
-                box.innerHTML = `<div style="font-size:12px; color:#888; text-align:left;">No pending connections. Add friends to build your close network feed!</div>`;
+                box.innerHTML = `<div class="status-msg-text">No pending connections. Add friends to build your close network feed!</div>`;
                 return;
             }
 
@@ -326,14 +386,14 @@
                     localStorage.setItem(`friends_${user}`, JSON.stringify(targetFriends));
                 }
             }
-            renderFriendRequests();
+            renderFriendRequests(false);
             renderFeed();
         }
 
         function rejectFriend(user) {
             let incoming = JSON.parse(localStorage.getItem(`requests_${currentLoggedUser.toLowerCase()}`) || '[]');
             localStorage.setItem(`requests_${currentLoggedUser.toLowerCase()}`, JSON.stringify(incoming.filter(u => u !== user)));
-            renderFriendRequests();
+            renderFriendRequests(false);
         }
 
         async function createPost() {
@@ -385,6 +445,7 @@
                 const res = await fetch(`${BACKEND_URL}?action=getPosts`);
                 let posts = await res.json();
                 
+                // Sorting engine prioritize connections over structural global feeds automatically
                 posts.sort((a, b) => {
                     const aIsFriend = friendsList.includes(a.user) ? 1 : 0;
                     const bIsFriend = friendsList.includes(b.user) ? 1 : 0;
