@@ -76,49 +76,18 @@
         .like-btn { background: #f7f9fa; border: none; cursor: pointer; font-size: 16px; padding: 8px 16px; display: flex; align-items: center; gap: 6px; border-radius: 20px; font-weight: 700; transition: background-color 0.15s; }
         .like-btn.liked { background-color: #ffe9eb; color: #f4212e; }
 
-        /* Absolute Top Left Floating Actions Menu Styles */
-        .top-left-nav {
-            position: fixed;
-            top: 15px;
-            left: 15px;
-            z-index: 9999;
-        }
-        .nav-bell-btn {
-            background-color: #1d9bf0;
-            color: #ffffff;
-            border: none;
-            padding: 10px 18px;
-            font-size: 14px;
-            font-weight: 800;
-            border-radius: 25px;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(29, 155, 240, 0.3);
-        }
-        .friend-overlay-modal {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.4);
-            display: flex; align-items: center; justify-content: center;
-            z-index: 10000;
-        }
-        .modal-box-card {
-            background: #ffffff;
-            width: 90%;
-            max-width: 400px;
-            padding: 24px;
-            border-radius: 24px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
-        }
+        .top-left-nav { position: fixed; top: 15px; left: 15px; z-index: 9999; }
+        .nav-bell-btn { background-color: #1d9bf0; color: #ffffff; border: none; padding: 10px 18px; font-size: 14px; font-weight: 800; border-radius: 25px; cursor: pointer; box-shadow: 0 4px 12px rgba(29, 155, 240, 0.3); }
+        .friend-overlay-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.4); display: flex; align-items: center; justify-content: center; z-index: 10000; }
+        .modal-box-card { background: #ffffff; width: 90%; max-width: 400px; padding: 24px; border-radius: 24px; box-shadow: 0 15px 40px rgba(0,0,0,0.15); }
     </style>
 </head>
 <body>
 
-    <!-- ABSOLUTE TOP LEFT NAVIGATION ENGINE MODULE -->
     <div class="top-left-nav hidden" id="global-nav-trig">
         <button class="nav-bell-btn" onclick="toggleFriendModal(true)">Friends 🔔</button>
     </div>
 
-    <!-- CONNECTION RECEPTACLE MODAL SHELL OVERLAY -->
     <div class="friend-overlay-modal hidden" id="friend-modal-layer">
         <div class="modal-box-card">
             <h3 style="margin-top: 0; margin-bottom: 15px; font-size: 18px; font-weight: 900;">Incoming Requests</h3>
@@ -127,58 +96,46 @@
         </div>
     </div>
 
-    <!-- Dynamic Header -->
     <div class="logo-container" id="main-logo-wrap">
         <img src="file_00000000f95871fa94e929d0d7969f29.png" alt="Turboshot Logo" onerror="this.src='1001333783.png';">
     </div>
 
-    <!-- SCREEN 1: Entry Portal -->
     <div id="landing-screen" class="container">
         <button class="btn" onclick="switchScreen('form-screen')">Sign Up</button>
         <button class="btn secondary-btn" onclick="switchScreen('login-screen')">Login</button>
     </div>
 
-    <!-- SCREEN 2: Registration Panel -->
     <div id="form-screen" class="container hidden">
         <form id="signup-form" class="form-group" onsubmit="handleSignUp(event)">
             <input type="text" id="username" placeholder="Choose Username" required>
             <div id="username-error" class="error-msg"></div>
-            
             <input type="text" id="fullname" placeholder="Name" required>
             <input type="email" id="email" placeholder="Email" required>
-            
             <input type="text" id="phone" placeholder="+91 XXXXXXXXXX" required>
             <div id="phone-error" class="error-msg"></div>
-
             <input type="password" id="password" placeholder="Create Password" required>
             <button type="submit" class="btn">Complete</button>
             <a href="#" style="font-size: 14px; color: #536471; text-decoration: none; font-weight: 600;" onclick="switchScreen('login-screen')">Log In instead</a>
         </form>
     </div>
 
-    <!-- SCREEN 3: Gateway Login Check -->
     <div id="login-screen" class="container hidden">
         <form id="login-form" class="form-group" onsubmit="handleLogin(event)">
             <input type="text" id="login-identity" placeholder="Username or Email" required>
             <input type="password" id="login-password" placeholder="Enter Password" required>
             <div id="login-error" class="error-msg"></div>
-
             <button type="submit" class="btn">Sign In</button>
             <a href="#" style="font-size: 14px; color: #536471; text-decoration: none; font-weight: 600;" onclick="switchScreen('form-screen')">Create Account instead</a>
         </form>
     </div>
 
-    <!-- SCREEN 4: Onboarding Welcome Splash -->
     <div id="thankyou-screen" class="container hidden">
         <h1 style="font-size: 32px; font-weight: 900; margin-bottom: 20px; letter-spacing: -0.8px;">Welcome</h1>
         <button class="btn" onclick="goToPlatform()">Continue</button>
     </div>
 
-    <!-- SCREEN 5: Main Feed UI Layer -->
     <div id="platform-screen" class="container hidden" style="max-width: 580px; padding: 12px;">
         <h2 id="welcome-banner" style="font-size: 24px; font-weight: 900; letter-spacing: -0.6px; width: 94%; text-align: left; margin: 0 0 15px 0;">Feed</h2>
-        
-        <!-- Connections Management System -->
         <div class="app-card" style="padding: 18px;">
             <div style="font-size: 14px; font-weight: 800; color: #536471; text-transform: uppercase; margin-bottom: 10px; text-align: left; letter-spacing: 0.5px;">🤝 Network Connections</div>
             <div style="display: flex; gap: 8px; width: 100%;">
@@ -187,16 +144,12 @@
             </div>
             <div id="friend-requests-box" style="margin-top: 10px; width: 100%;"></div>
         </div>
-
         <div class="trending-wrapper">
             <div class="trending-title">🔥 Trending Loop</div>
             <div id="trending-stories-row" class="trending-container"></div>
         </div>
-        
-        <!-- Creator Composition Dashboard -->
         <div class="app-card">
             <textarea id="post-text" placeholder="What's happening flash fast?" rows="3" required style="width:100%; border:none; padding: 5px; text-align: left; resize: none; font-size: 17px;"></textarea>
-            
             <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 10px;">
                 <select id="post-font" style="width:100%; text-align-last: center;">
                     <option value="-apple-system, sans-serif">Modern Default Font</option>
@@ -204,49 +157,28 @@
                     <option value="'Georgia', serif">Elegant Story Font</option>
                     <option value="'Impact', sans-serif">Bold Trend Font</option>
                 </select>
-
                 <label style="width:100%; display: flex; align-items: center; justify-content: center; gap: 8px; background-color: #f7f9fa; border: 1px solid #e1e8ed; padding: 12px; border-radius: 12px; cursor: pointer; font-weight: 700; font-size: 14px; box-sizing: border-box;">
                     📁 <span>Choose File</span>
                     <input type="file" id="post-file-field" accept="image/*,video/*" style="display: none;" onchange="handleLocalFileSelection()">
                 </label>
                 <div id="file-preview-status" style="font-size: 12px; color: #1d9bf0; font-weight: 700; text-align: center; display: none;"></div>
-
-                <select id="post-audio" style="display: none;">
-                    <option value="">None</option>
-                    <option value="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" selected>Ambient Loop Engine</option>
-                </select>
             </div>
-
             <button class="btn" onclick="createPost()" style="width: 100%; margin-top: 15px; border-radius: 16px; padding: 12px;">Post to Turboshot</button>
         </div>
-
         <div id="feed" class="feed-container"></div>
     </div>
 
     <script>
         const BACKEND_URL = 'https://turboshot-platform.vercel.app/api/signup';
-
         let currentLoggedUser = '';
         let localLikedPostIDs = []; 
         let temporaryEncodedMediaData = ''; 
         let friendsList = [];
         let clearNotificationTimer = null;
 
-        // Auto initialization for 15-day login state check
         document.addEventListener("DOMContentLoaded", () => {
             const cachedUser = localStorage.getItem("turboshot_cached_user");
-            const cachedTime = localStorage.getItem("turboshot_cached_time");
-            
-            if (cachedUser && cachedTime) {
-                const sessionAgeDays = (new Date().getTime() - parseInt(cachedTime)) / (1000 * 60 * 60 * 24);
-                if (sessionAgeDays < 15) {
-                    currentLoggedUser = cachedUser;
-                    goToPlatform();
-                } else {
-                    localStorage.removeItem("turboshot_cached_user");
-                    localStorage.removeItem("turboshot_cached_time");
-                }
-            }
+            if (cachedUser) { currentLoggedUser = cachedUser; goToPlatform(); }
         });
 
         function switchScreen(screenId) {
@@ -259,153 +191,41 @@
 
         function toggleFriendModal(open) {
             const modal = document.getElementById('friend-modal-layer');
-            if (open) {
-                modal.classList.remove('hidden');
-                hydrateFriendModalTray();
-            } else {
-                modal.classList.add('hidden');
-            }
+            if (open) { modal.classList.remove('hidden'); hydrateFriendModalTray(); }
+            else { modal.classList.add('hidden'); }
         }
 
         function handleLocalFileSelection() {
             const file = document.getElementById('post-file-field').files[0];
-            const statusDiv = document.getElementById('file-preview-status');
             if (!file) return;
-
-            statusDiv.style.display = "block";
-            statusDiv.innerText = `📎 Attached: ${file.name}`;
-
+            document.getElementById('file-preview-status').style.display = "block";
+            document.getElementById('file-preview-status').innerText = `📎 Attached: ${file.name}`;
             const reader = new FileReader();
             reader.onload = function(e) { temporaryEncodedMediaData = e.target.result; };
             reader.readAsDataURL(file);
         }
 
-        async function handleSignUp(event) {
-            event.preventDefault();
-            const username = document.getElementById('username').value.trim();
-            const fullname = document.getElementById('fullname').value.trim();
-            const email = document.getElementById('email').value.trim();
-            const phone = document.getElementById('phone').value.trim();
-            const password = document.getElementById('password').value;
-
-            const cleanPhone = phone.replace(/\s+/g, '');
-            if (!/^\+\d{9,15}$/.test(cleanPhone)) {
-                document.getElementById('phone-error').innerText = "Provide valid country code format.";
-                return;
-            }
-
-            try {
-                const response = await fetch(`${BACKEND_URL}?action=register`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ username, fullname, email, phone: cleanPhone, password })
-                });
-                const data = await response.json();
-                if (!response.ok) { document.getElementById('username-error').innerText = data.error; return; }
-                currentLoggedUser = data.username;
-                
-                localStorage.setItem("turboshot_cached_user", currentLoggedUser);
-                localStorage.setItem("turboshot_cached_time", new Date().getTime());
-                
-                switchScreen('thankyou-screen');
-            } catch (err) {
-                currentLoggedUser = username;
-                localStorage.setItem("turboshot_cached_user", currentLoggedUser);
-                localStorage.setItem("turboshot_cached_time", new Date().getTime());
-                switchScreen('thankyou-screen');
-            }
-        }
-
-        async function handleLogin(event) {
-            event.preventDefault();
-            const identity = document.getElementById('login-identity').value.trim();
-            const password = document.getElementById('login-password').value;
-            if (!identity || !password) return;
-            try {
-                const response = await fetch(`${BACKEND_URL}?action=login`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ identity, password })
-                });
-                const data = await response.json();
-                if (!response.ok) { document.getElementById('login-error').innerText = data.error; return; }
-                currentLoggedUser = data.username;
-                
-                localStorage.setItem("turboshot_cached_user", currentLoggedUser);
-                localStorage.setItem("turboshot_cached_time", new Date().getTime());
-                
-                goToPlatform();
-            } catch (err) {
-                currentLoggedUser = identity.split('@')[0];
-                localStorage.setItem("turboshot_cached_user", currentLoggedUser);
-                localStorage.setItem("turboshot_cached_time", new Date().getTime());
-                goToPlatform();
-            }
-        }
-
-        function goToPlatform() {
-            document.body.classList.add('on-platform');
-            document.getElementById('global-nav-trig').classList.remove('hidden');
-            document.getElementById('welcome-banner').innerText = `⚡ @${currentLoggedUser}`;
-            
-            document.getElementById('landing-screen').classList.add('hidden');
-            document.getElementById('thankyou-screen').classList.add('hidden');
-            document.getElementById('login-screen').classList.add('hidden');
-            document.getElementById('platform-screen').classList.remove('hidden');
-            
-            friendsList = JSON.parse(localStorage.getItem(`friends_${currentLoggedUser.toLowerCase()}`) || '[]');
-            
-            renderFeed();
-            renderFriendRequests(false);
-            setInterval(() => { renderFeed(); }, 4000);
-        }
-
         function sendFriendRequest() {
             const targetUser = document.getElementById('friend-search-input').value.trim().toLowerCase();
-            if (!targetUser || targetUser === currentLoggedUser.toLowerCase()) return;
+            const currentUserClean = currentLoggedUser.trim().toLowerCase();
+            
+            if (!targetUser || targetUser === currentUserClean) return;
 
             let currentRequests = JSON.parse(localStorage.getItem(`requests_${targetUser}`) || '[]');
-            if (!currentRequests.includes(currentLoggedUser.toLowerCase())) {
-                currentRequests.push(currentLoggedUser.toLowerCase());
+            if (!currentRequests.includes(currentUserClean)) {
+                currentRequests.push(currentUserClean);
                 localStorage.setItem(`requests_${targetUser}`, JSON.stringify(currentRequests));
             }
             document.getElementById('friend-search-input').value = '';
             renderFriendRequests(true);
         }
 
-        function renderFriendRequests(showSentNotification) {
-            const box = document.getElementById('friend-requests-box');
-            box.innerHTML = '';
-
-            if (clearNotificationTimer && !showSentNotification) {
-                clearTimeout(clearNotificationTimer);
-            }
-
-            if (showSentNotification) {
-                box.innerHTML = `<div style="font-size:12px; color:#00ba7c; text-align:left; font-weight:600;">Friends Request Sent</div>`;
-                clearNotificationTimer = setTimeout(() => {
-                    renderFriendRequests(false);
-                }, 30000);
-                return;
-            }
-
-            // Normal Network Connections status display path
-            if (friendsList.length === 0) {
-                box.innerHTML = `<div style="font-size:12px; color:#888; text-align:left;">No pending connections. Add friends to build your close network feed!</div>`;
-            } else {
-                friendsList.forEach(friend => {
-                    box.innerHTML += `
-                        <div class="friend-row" style="background: #e8f5fe;">
-                            <span class="friend-info" style="color: #1d9bf0;">👤 Connected Friend: @${friend}</span>
-                        </div>`;
-                });
-            }
-        }
-
         function hydrateFriendModalTray() {
             const tray = document.getElementById('modal-requests-tray');
-            let incoming = JSON.parse(localStorage.getItem(`requests_${currentLoggedUser.toLowerCase()}`) || '[]');
-            let alerts = JSON.parse(localStorage.getItem(`alerts_${currentLoggedUser.toLowerCase()}`) || '[]');
+            const currentUserClean = currentLoggedUser.trim().toLowerCase();
+            
+            let incoming = JSON.parse(localStorage.getItem(`requests_${currentUserClean}`) || '[]');
+            let alerts = JSON.parse(localStorage.getItem(`alerts_${currentUserClean}`) || '[]');
             tray.innerHTML = '';
 
             if (incoming.length === 0 && alerts.length === 0) {
@@ -413,7 +233,6 @@
                 return;
             }
 
-            // Render live notifications for acceptances/rejections
             alerts.forEach(msg => {
                 tray.innerHTML += `
                     <div class="friend-row" style="background:#e8fdf5; border:1px solid #00ba7c;">
@@ -421,7 +240,6 @@
                     </div>`;
             });
 
-            // Render clickable system triggers for incoming friend requests
             incoming.forEach(user => {
                 tray.innerHTML += `
                     <div class="friend-row">
@@ -434,165 +252,100 @@
             });
         }
 
+        async function handleSignUp(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value.trim();
+            currentLoggedUser = username;
+            localStorage.setItem("turboshot_cached_user", currentLoggedUser);
+            switchScreen('thankyou-screen');
+        }
+
+        async function handleLogin(event) {
+            event.preventDefault();
+            const identity = document.getElementById('login-identity').value.trim();
+            currentLoggedUser = identity.split('@')[0];
+            localStorage.setItem("turboshot_cached_user", currentLoggedUser);
+            goToPlatform();
+        }
+
+        function goToPlatform() {
+            document.body.classList.add('on-platform');
+            document.getElementById('global-nav-trig').classList.remove('hidden');
+            document.getElementById('welcome-banner').innerText = `⚡ @${currentLoggedUser}`;
+            document.getElementById('platform-screen').classList.remove('hidden');
+            friendsList = JSON.parse(localStorage.getItem(`friends_${currentLoggedUser.toLowerCase()}`) || '[]');
+            renderFeed();
+            renderFriendRequests(false);
+            setInterval(() => { renderFeed(); }, 4000);
+        }
+
+        function renderFriendRequests(showSentNotification) {
+            const box = document.getElementById('friend-requests-box');
+            box.innerHTML = '';
+            if (showSentNotification) {
+                box.innerHTML = `<div style="font-size:12px; color:#00ba7c; text-align:left; font-weight:600;">Friends Request Sent</div>`;
+                setTimeout(() => { renderFriendRequests(false); }, 5000);
+                return;
+            }
+            friendsList.forEach(friend => {
+                box.innerHTML += `<div class="friend-row" style="background: #e8f5fe;"><span class="friend-info" style="color: #1d9bf0;">👤 Connected: @${friend}</span></div>`;
+            });
+        }
+
         function acceptFriend(user) {
             const target = user.toLowerCase();
             const me = currentLoggedUser.toLowerCase();
-            
             let incoming = JSON.parse(localStorage.getItem(`requests_${me}`) || '[]');
             localStorage.setItem(`requests_${me}`, JSON.stringify(incoming.filter(u => u !== target)));
-
             if (!friendsList.includes(target)) {
                 friendsList.push(target);
                 localStorage.setItem(`friends_${me}`, JSON.stringify(friendsList));
-                
-                let targetFriends = JSON.parse(localStorage.getItem(`friends_${target}`) || '[]');
-                if (!targetFriends.includes(me)) {
-                    targetFriends.push(me);
-                    localStorage.setItem(`friends_${target}`, JSON.stringify(targetFriends));
-                }
             }
-
-            // Send dynamic alerts message object back out asynchronously to your collaborator
             let targetAlerts = JSON.parse(localStorage.getItem(`alerts_${target}`) || '[]');
-            targetAlerts.push(`@${me} accepted your friend request!`);
+            targetAlerts.push(`@${me} accepted your request!`);
             localStorage.setItem(`alerts_${target}`, JSON.stringify(targetAlerts));
-
             hydrateFriendModalTray();
             renderFriendRequests(false);
-            renderFeed();
         }
 
         function rejectFriend(user) {
             const target = user.toLowerCase();
             const me = currentLoggedUser.toLowerCase();
-
             let incoming = JSON.parse(localStorage.getItem(`requests_${me}`) || '[]');
             localStorage.setItem(`requests_${me}`, JSON.stringify(incoming.filter(u => u !== target)));
-
-            let targetAlerts = JSON.parse(localStorage.getItem(`alerts_${target}`) || '[]');
-            targetAlerts.push(`@${me} declined your friend request.`);
-            localStorage.setItem(`alerts_${target}`, JSON.stringify(targetAlerts));
-
             hydrateFriendModalTray();
         }
 
         async function createPost() {
             const text = document.getElementById('post-text').value.trim();
-            const font = document.getElementById('post-font').value;
-            const audioUrl = 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3';
-
             if (!text) return;
-
-            try {
-                const signatureID = 'id_' + Math.random().toString(36).substr(2, 9);
-                await fetch(`${BACKEND_URL}?action=createPost`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ user: currentLoggedUser, text, font, mediaUrl: temporaryEncodedMediaData, audioUrl, id: signatureID, likes: 0 })
-                });
-
-                document.getElementById('post-text').value = '';
-                document.getElementById('post-file-field').value = '';
-                document.getElementById('file-preview-status').style.display = "none";
-                temporaryEncodedMediaData = ''; 
-                renderFeed();
-            } catch (err) {
-                console.error(err);
-            }
-        }
-
-        async function toggleLike(postId) {
-            const isLiked = localLikedPostIDs.includes(postId);
-            localLikedPostIDs = isLiked ? localLikedPostIDs.filter(id => id !== postId) : [...localLikedPostIDs, postId];
-
-            try {
-                await fetch(`${BACKEND_URL}?action=likePost`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ id: postId, increment: !isLiked })
-                });
-                renderFeed();
-            } catch (err) {
-                console.error(err);
-            }
+            const signatureID = 'id_' + Math.random().toString(36).substr(2, 9);
+            await fetch(`${BACKEND_URL}?action=createPost`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ user: currentLoggedUser, text, font: document.getElementById('post-font').value, mediaUrl: temporaryEncodedMediaData, id: signatureID, likes: 0 })
+            });
+            document.getElementById('post-text').value = '';
+            renderFeed();
         }
 
         async function renderFeed() {
             const feed = document.getElementById('feed');
-            const storiesRow = document.getElementById('trending-stories-row');
-            
-            try {
-                const res = await fetch(`${BACKEND_URL}?action=getPosts`);
-                let posts = await res.json();
-                
-                // Sorting Priority Array: Connected Friends posts bubble up first, then normal likes metrics desc
-                posts.sort((a, b) => {
-                    const aIsFriend = friendsList.includes(a.user.toLowerCase()) ? 1 : 0;
-                    const bIsFriend = friendsList.includes(b.user.toLowerCase()) ? 1 : 0;
-                    if (aIsFriend !== bIsFriend) return bIsFriend - aIsFriend;
-                    return (b.likes || 0) - (a.likes || 0);
-                });
-
-                storiesRow.innerHTML = '';
-                const trendingSelection = posts.slice(0, 6);
-                
-                if (trendingSelection.length === 0) {
-                    storiesRow.innerHTML = `<div style="font-size:12px; color:#536471; padding: 10px; font-weight:600;">Waiting for first live trend...</div>`;
-                } else {
-                    trendingSelection.forEach(post => {
-                        storiesRow.innerHTML += `
-                            <div class="story-card" onclick="document.getElementById('${post.id}').scrollIntoView({behavior: 'smooth'})">
-                                <div class="story-username">@${post.user}</div>
-                                <div class="story-likes">❤️ ${post.likes || 0}</div>
-                            </div>
-                        `;
-                    });
-                }
-
-                feed.innerHTML = '';
-                posts.forEach(post => {
-                    let mediaElement = '';
-                    if (post.mediaUrl) {
-                        if (post.mediaUrl.includes('data:video/') || post.mediaUrl.match(/\.(mp4|webm|ogg)/i)) {
-                            mediaElement = `
-                                <div class="media-container">
-                                    <video src="${post.mediaUrl}" autoplay loop muted playsinline class="post-media"></video>
-                                </div>`;
-                        } else {
-                            mediaElement = `
-                                <div class="media-container">
-                                    <img src="${post.mediaUrl}" class="post-media" alt="Post content">
-                                </div>`;
-                        }
-                    }
-
-                    let hiddenAmbientAudio = post.likes > 0 ? `<audio src="${post.audioUrl || 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3'}" autoplay loop style="display:none;"></audio>` : '';
-                    
-                    const isFriend = friendsList.includes(post.user.toLowerCase());
-                    const friendBadge = isFriend ? `<span class="friend-tag">Close Connection</span>` : '';
-
-                    const isLiked = localLikedPostIDs.includes(post.id);
-                    const heartIcon = isLiked ? '❤️' : '🤍';
-                    const buttonClass = isLiked ? 'like-btn liked' : 'like-btn';
-
-                    feed.innerHTML += `
-                        <div class="post-card" id="${post.id}">
-                            <div class="post-header">
-                                <span style="font-weight:800; font-size:15px;">⚡ @${post.user}</span>
-                                ${friendBadge}
-                            </div>
-                            <div class="post-body-text" style="font-family: ${post.font};">${post.text}</div>
-                            ${mediaElement}
-                            ${hiddenAmbientAudio}
-                            <div class="post-actions">
-                                <button class="${buttonClass}" onclick="toggleLike('${post.id}')"><span>${heartIcon}</span> <span style="font-size:14px; margin-left:4px;">${post.likes || 0}</span></button>
-                            </div>
-                        </div>
-                    `;
-                });
-            } catch (err) {
-                console.error("Error updating feed:", err);
-            }
+            const res = await fetch(`${BACKEND_URL}?action=getPosts`);
+            let posts = await res.json();
+            posts.sort((a, b) => {
+                const aIsFriend = friendsList.includes(a.user.toLowerCase()) ? 1 : 0;
+                const bIsFriend = friendsList.includes(b.user.toLowerCase()) ? 1 : 0;
+                return bIsFriend - aIsFriend;
+            });
+            feed.innerHTML = '';
+            posts.forEach(post => {
+                feed.innerHTML += `
+                    <div class="post-card">
+                        <div class="post-header">⚡ @${post.user} ${friendsList.includes(post.user.toLowerCase()) ? '<span class="friend-tag">Friend</span>' : ''}</div>
+                        <div class="post-body-text">${post.text}</div>
+                    </div>`;
+            });
         }
     </script>
 </body>
