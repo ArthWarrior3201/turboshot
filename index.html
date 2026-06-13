@@ -17,6 +17,11 @@
             color: #0f1419;
         }
         
+        /* Layout Structure Controls & Multi-Screen Framework */
+        .container { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; width: 100%; max-width: 480px; padding: 24px; box-sizing: border-box; }
+        .hidden { display: none !important; }
+
+        /* Navigation Logo Spacing Adjustments */
         .logo-container { 
             margin: 25px 0; text-align: center; transition: all 0.3s ease;
             min-height: 60px;
@@ -25,19 +30,20 @@
 
         body.on-platform .logo-container {
             position: relative;
-            width: 90%;
-            max-width: 550px;
+            width: 90%; max-width: 550px;
             margin: 20px 0 10px 0;
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            text-align: left;
+            display: flex; align-items: center; justify-content: flex-start; text-align: left;
         }
         body.on-platform .logo-container img { width: 120px; margin: 0; }
 
-        .container { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; width: 100%; max-width: 480px; padding: 24px; box-sizing: border-box; }
-        .hidden { display: none !important; }
+        /* Top-Left Floating Friend Modal Controller */
+        .top-left-nav { position: fixed; top: 15px; left: 15px; z-index: 9999; }
+        .nav-bell-btn { background-color: #1d9bf0; color: #ffffff; border: none; padding: 10px 18px; font-size: 14px; font-weight: 800; border-radius: 25px; cursor: pointer; box-shadow: 0 4px 12px rgba(29, 155, 240, 0.3); }
         
+        .friend-overlay-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.4); display: flex; align-items: center; justify-content: center; z-index: 10000; }
+        .modal-box-card { background: #ffffff; width: 90%; max-width: 400px; padding: 24px; border-radius: 24px; box-shadow: 0 15px 40px rgba(0,0,0,0.15); }
+
+        /* Premium Social UI Component Sheets */
         .btn { background-color: #000000; color: #ffffff; border: none; padding: 14px 32px; font-size: 16px; font-weight: 700; border-radius: 30px; cursor: pointer; transition: transform 0.2s, background-color 0.2s; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
         .btn:hover { transform: scale(1.02); background-color: #1a1a1a; }
         .secondary-btn { background-color: #ffffff; color: #000000; border: 2px solid #000000; margin-top: 14px; box-shadow: none; }
@@ -47,13 +53,13 @@
         .form-group { display: flex; flex-direction: column; align-items: center; width: 100%; gap: 16px; }
         input, select, textarea { width: 90%; padding: 14px 16px; font-size: 16px; border: 1px solid #e1e8ed; border-radius: 14px; outline: none; text-align: center; font-family: inherit; background-color: #ffffff; box-sizing: border-box; }
         input:focus, select:focus, textarea:focus { border-color: #4364F7; box-shadow: 0 0 0 3px rgba(67,100,247,0.08); }
-        .error-msg { color: #f4212e; font-size: 14px; margin-top: -6px; width: 90%; font-weight: 500; }
+        .error-msg { color: #f4212e; font-size: 14px; margin-top: -5px; width: 90%; font-weight: 500; }
         
         .app-card { background: #ffffff; padding: 22px; border-radius: 24px; width: 94%; box-sizing: border-box; box-shadow: 0 10px 30px rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.01); margin-bottom: 20px; }
-        
         .friend-row { display: flex; align-items: center; justify-content: space-between; background: #f7f9fa; padding: 10px 14px; border-radius: 14px; margin-top: 8px; width: 100%; box-sizing: border-box; }
         .friend-info { font-weight: 700; font-size: 14px; color: #0f1419; }
 
+        /* Trending Horizontal Sub-System Layouts */
         .trending-wrapper { width: 94%; margin-bottom: 20px; text-align: left; }
         .trending-title { font-size: 13px; font-weight: 800; color: #536471; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.8px; }
         .trending-container { display: flex; gap: 14px; overflow-x: auto; width: 100%; padding-bottom: 10px; scrollbar-width: none; }
@@ -63,6 +69,7 @@
         .story-username { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .story-likes { font-size: 10px; background: rgba(255, 255, 255, 0.2); padding: 2px 6px; border-radius: 20px; width: fit-content; margin-top: 4px; backdrop-filter: blur(4px); }
 
+        /* Immersive Timelines Card Layouts */
         .feed-container { width: 100%; display: flex; flex-direction: column; gap: 20px; }
         .post-card { background: #ffffff; border-radius: 24px; padding: 22px; text-align: left; width: 94%; margin: 0 auto; box-sizing: border-box; box-shadow: 0 8px 25px rgba(0,0,0,0.02); border: 1px solid rgba(0,0,0,0.01); position: relative; }
         .post-header { font-weight: 800; margin-bottom: 10px; color: #0f1419; font-size: 15px; display: flex; align-items: center; justify-content: space-between; }
@@ -75,11 +82,6 @@
         .post-actions { display: flex; align-items: center; margin-top: 16px; padding-top: 12px; border-top: 1px solid #f7f9fa; }
         .like-btn { background: #f7f9fa; border: none; cursor: pointer; font-size: 16px; padding: 8px 16px; display: flex; align-items: center; gap: 6px; border-radius: 20px; font-weight: 700; transition: background-color 0.15s; }
         .like-btn.liked { background-color: #ffe9eb; color: #f4212e; }
-
-        .top-left-nav { position: fixed; top: 15px; left: 15px; z-index: 9999; }
-        .nav-bell-btn { background-color: #1d9bf0; color: #ffffff; border: none; padding: 10px 18px; font-size: 14px; font-weight: 800; border-radius: 25px; cursor: pointer; box-shadow: 0 4px 12px rgba(29, 155, 240, 0.3); }
-        .friend-overlay-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.4); display: flex; align-items: center; justify-content: center; z-index: 10000; }
-        .modal-box-card { background: #ffffff; width: 90%; max-width: 400px; padding: 24px; border-radius: 24px; box-shadow: 0 15px 40px rgba(0,0,0,0.15); }
     </style>
 </head>
 <body>
@@ -99,254 +101,3 @@
     <div class="logo-container" id="main-logo-wrap">
         <img src="file_00000000f95871fa94e929d0d7969f29.png" alt="Turboshot Logo" onerror="this.src='1001333783.png';">
     </div>
-
-    <div id="landing-screen" class="container">
-        <button class="btn" onclick="switchScreen('form-screen')">Sign Up</button>
-        <button class="btn secondary-btn" onclick="switchScreen('login-screen')">Login</button>
-    </div>
-
-    <div id="form-screen" class="container hidden">
-        <form id="signup-form" class="form-group" onsubmit="handleSignUp(event)">
-            <input type="text" id="username" placeholder="Choose Username" required>
-            <div id="username-error" class="error-msg"></div>
-            <input type="text" id="fullname" placeholder="Name" required>
-            <input type="email" id="email" placeholder="Email" required>
-            <input type="text" id="phone" placeholder="+91 XXXXXXXXXX" required>
-            <div id="phone-error" class="error-msg"></div>
-            <input type="password" id="password" placeholder="Create Password" required>
-            <button type="submit" class="btn">Complete</button>
-            <a href="#" style="font-size: 14px; color: #536471; text-decoration: none; font-weight: 600;" onclick="switchScreen('login-screen')">Log In instead</a>
-        </form>
-    </div>
-
-    <div id="login-screen" class="container hidden">
-        <form id="login-form" class="form-group" onsubmit="handleLogin(event)">
-            <input type="text" id="login-identity" placeholder="Username or Email" required>
-            <input type="password" id="login-password" placeholder="Enter Password" required>
-            <div id="login-error" class="error-msg"></div>
-            <button type="submit" class="btn">Sign In</button>
-            <a href="#" style="font-size: 14px; color: #536471; text-decoration: none; font-weight: 600;" onclick="switchScreen('form-screen')">Create Account instead</a>
-        </form>
-    </div>
-
-    <div id="thankyou-screen" class="container hidden">
-        <h1 style="font-size: 32px; font-weight: 900; margin-bottom: 20px; letter-spacing: -0.8px;">Welcome</h1>
-        <button class="btn" onclick="goToPlatform()">Continue</button>
-    </div>
-
-    <div id="platform-screen" class="container hidden" style="max-width: 580px; padding: 12px;">
-        <h2 id="welcome-banner" style="font-size: 24px; font-weight: 900; letter-spacing: -0.6px; width: 94%; text-align: left; margin: 0 0 15px 0;">Feed</h2>
-        <div class="app-card" style="padding: 18px;">
-            <div style="font-size: 14px; font-weight: 800; color: #536471; text-transform: uppercase; margin-bottom: 10px; text-align: left; letter-spacing: 0.5px;">🤝 Network Connections</div>
-            <div style="display: flex; gap: 8px; width: 100%;">
-                <input type="text" id="friend-search-input" placeholder="Enter user's username..." style="padding: 10px; font-size: 14px; text-align: left; width: 75%;">
-                <button class="btn" onclick="sendFriendRequest()" style="padding: 10px 16px; font-size: 14px; border-radius: 12px; width: 25%;">Add</button>
-            </div>
-            <div id="friend-requests-box" style="margin-top: 10px; width: 100%;"></div>
-        </div>
-        <div class="trending-wrapper">
-            <div class="trending-title">🔥 Trending Loop</div>
-            <div id="trending-stories-row" class="trending-container"></div>
-        </div>
-        <div class="app-card">
-            <textarea id="post-text" placeholder="What's happening flash fast?" rows="3" required style="width:100%; border:none; padding: 5px; text-align: left; resize: none; font-size: 17px;"></textarea>
-            <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 10px;">
-                <select id="post-font" style="width:100%; text-align-last: center;">
-                    <option value="-apple-system, sans-serif">Modern Default Font</option>
-                    <option value="'Courier New', monospace">Retro Code Font</option>
-                    <option value="'Georgia', serif">Elegant Story Font</option>
-                    <option value="'Impact', sans-serif">Bold Trend Font</option>
-                </select>
-                <label style="width:100%; display: flex; align-items: center; justify-content: center; gap: 8px; background-color: #f7f9fa; border: 1px solid #e1e8ed; padding: 12px; border-radius: 12px; cursor: pointer; font-weight: 700; font-size: 14px; box-sizing: border-box;">
-                    📁 <span>Choose File</span>
-                    <input type="file" id="post-file-field" accept="image/*,video/*" style="display: none;" onchange="handleLocalFileSelection()">
-                </label>
-                <div id="file-preview-status" style="font-size: 12px; color: #1d9bf0; font-weight: 700; text-align: center; display: none;"></div>
-            </div>
-            <button class="btn" onclick="createPost()" style="width: 100%; margin-top: 15px; border-radius: 16px; padding: 12px;">Post to Turboshot</button>
-        </div>
-        <div id="feed" class="feed-container"></div>
-    </div>
-
-    <script>
-        const BACKEND_URL = 'https://turboshot-platform.vercel.app/api/signup';
-        let currentLoggedUser = '';
-        let localLikedPostIDs = []; 
-        let temporaryEncodedMediaData = ''; 
-        let friendsList = [];
-        let clearNotificationTimer = null;
-
-        document.addEventListener("DOMContentLoaded", () => {
-            const cachedUser = localStorage.getItem("turboshot_cached_user");
-            if (cachedUser) { currentLoggedUser = cachedUser; goToPlatform(); }
-        });
-
-        function switchScreen(screenId) {
-            document.getElementById('landing-screen').classList.add('hidden');
-            document.getElementById('form-screen').classList.add('hidden');
-            document.getElementById('login-screen').classList.add('hidden');
-            document.getElementById('thankyou-screen').classList.add('hidden');
-            document.getElementById(screenId).classList.remove('hidden');
-        }
-
-        function toggleFriendModal(open) {
-            const modal = document.getElementById('friend-modal-layer');
-            if (open) { modal.classList.remove('hidden'); hydrateFriendModalTray(); }
-            else { modal.classList.add('hidden'); }
-        }
-
-        function handleLocalFileSelection() {
-            const file = document.getElementById('post-file-field').files[0];
-            if (!file) return;
-            document.getElementById('file-preview-status').style.display = "block";
-            document.getElementById('file-preview-status').innerText = `📎 Attached: ${file.name}`;
-            const reader = new FileReader();
-            reader.onload = function(e) { temporaryEncodedMediaData = e.target.result; };
-            reader.readAsDataURL(file);
-        }
-
-        function sendFriendRequest() {
-            const targetUser = document.getElementById('friend-search-input').value.trim().toLowerCase();
-            const currentUserClean = currentLoggedUser.trim().toLowerCase();
-            
-            if (!targetUser || targetUser === currentUserClean) return;
-
-            let currentRequests = JSON.parse(localStorage.getItem(`requests_${targetUser}`) || '[]');
-            if (!currentRequests.includes(currentUserClean)) {
-                currentRequests.push(currentUserClean);
-                localStorage.setItem(`requests_${targetUser}`, JSON.stringify(currentRequests));
-            }
-            document.getElementById('friend-search-input').value = '';
-            renderFriendRequests(true);
-        }
-
-        function hydrateFriendModalTray() {
-            const tray = document.getElementById('modal-requests-tray');
-            const currentUserClean = currentLoggedUser.trim().toLowerCase();
-            
-            let incoming = JSON.parse(localStorage.getItem(`requests_${currentUserClean}`) || '[]');
-            let alerts = JSON.parse(localStorage.getItem(`alerts_${currentUserClean}`) || '[]');
-            tray.innerHTML = '';
-
-            if (incoming.length === 0 && alerts.length === 0) {
-                tray.innerHTML = `<div style="font-size:13px; color:#666; text-align:center; padding:10px;">No pending actions or notifications.</div>`;
-                return;
-            }
-
-            alerts.forEach(msg => {
-                tray.innerHTML += `
-                    <div class="friend-row" style="background:#e8fdf5; border:1px solid #00ba7c;">
-                        <span class="friend-info" style="font-size:12px; color:#00ba7c;">🔔 ${msg}</span>
-                    </div>`;
-            });
-
-            incoming.forEach(user => {
-                tray.innerHTML += `
-                    <div class="friend-row">
-                        <span class="friend-info" style="font-size:13px;">📩 Request from @${user}</span>
-                        <div>
-                            <button class="btn action-btn" onclick="acceptFriend('${user}')">Accept</button>
-                            <button class="btn action-btn reject-btn" onclick="rejectFriend('${user}')">Reject</button>
-                        </div>
-                    </div>`;
-            });
-        }
-
-        async function handleSignUp(event) {
-            event.preventDefault();
-            const username = document.getElementById('username').value.trim();
-            currentLoggedUser = username;
-            localStorage.setItem("turboshot_cached_user", currentLoggedUser);
-            switchScreen('thankyou-screen');
-        }
-
-        async function handleLogin(event) {
-            event.preventDefault();
-            const identity = document.getElementById('login-identity').value.trim();
-            currentLoggedUser = identity.split('@')[0];
-            localStorage.setItem("turboshot_cached_user", currentLoggedUser);
-            goToPlatform();
-        }
-
-        function goToPlatform() {
-            document.body.classList.add('on-platform');
-            document.getElementById('global-nav-trig').classList.remove('hidden');
-            document.getElementById('welcome-banner').innerText = `⚡ @${currentLoggedUser}`;
-            document.getElementById('platform-screen').classList.remove('hidden');
-            friendsList = JSON.parse(localStorage.getItem(`friends_${currentLoggedUser.toLowerCase()}`) || '[]');
-            renderFeed();
-            renderFriendRequests(false);
-            setInterval(() => { renderFeed(); }, 4000);
-        }
-
-        function renderFriendRequests(showSentNotification) {
-            const box = document.getElementById('friend-requests-box');
-            box.innerHTML = '';
-            if (showSentNotification) {
-                box.innerHTML = `<div style="font-size:12px; color:#00ba7c; text-align:left; font-weight:600;">Friends Request Sent</div>`;
-                setTimeout(() => { renderFriendRequests(false); }, 5000);
-                return;
-            }
-            friendsList.forEach(friend => {
-                box.innerHTML += `<div class="friend-row" style="background: #e8f5fe;"><span class="friend-info" style="color: #1d9bf0;">👤 Connected: @${friend}</span></div>`;
-            });
-        }
-
-        function acceptFriend(user) {
-            const target = user.toLowerCase();
-            const me = currentLoggedUser.toLowerCase();
-            let incoming = JSON.parse(localStorage.getItem(`requests_${me}`) || '[]');
-            localStorage.setItem(`requests_${me}`, JSON.stringify(incoming.filter(u => u !== target)));
-            if (!friendsList.includes(target)) {
-                friendsList.push(target);
-                localStorage.setItem(`friends_${me}`, JSON.stringify(friendsList));
-            }
-            let targetAlerts = JSON.parse(localStorage.getItem(`alerts_${target}`) || '[]');
-            targetAlerts.push(`@${me} accepted your request!`);
-            localStorage.setItem(`alerts_${target}`, JSON.stringify(targetAlerts));
-            hydrateFriendModalTray();
-            renderFriendRequests(false);
-        }
-
-        function rejectFriend(user) {
-            const target = user.toLowerCase();
-            const me = currentLoggedUser.toLowerCase();
-            let incoming = JSON.parse(localStorage.getItem(`requests_${me}`) || '[]');
-            localStorage.setItem(`requests_${me}`, JSON.stringify(incoming.filter(u => u !== target)));
-            hydrateFriendModalTray();
-        }
-
-        async function createPost() {
-            const text = document.getElementById('post-text').value.trim();
-            if (!text) return;
-            const signatureID = 'id_' + Math.random().toString(36).substr(2, 9);
-            await fetch(`${BACKEND_URL}?action=createPost`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ user: currentLoggedUser, text, font: document.getElementById('post-font').value, mediaUrl: temporaryEncodedMediaData, id: signatureID, likes: 0 })
-            });
-            document.getElementById('post-text').value = '';
-            renderFeed();
-        }
-
-        async function renderFeed() {
-            const feed = document.getElementById('feed');
-            const res = await fetch(`${BACKEND_URL}?action=getPosts`);
-            let posts = await res.json();
-            posts.sort((a, b) => {
-                const aIsFriend = friendsList.includes(a.user.toLowerCase()) ? 1 : 0;
-                const bIsFriend = friendsList.includes(b.user.toLowerCase()) ? 1 : 0;
-                return bIsFriend - aIsFriend;
-            });
-            feed.innerHTML = '';
-            posts.forEach(post => {
-                feed.innerHTML += `
-                    <div class="post-card">
-                        <div class="post-header">⚡ @${post.user} ${friendsList.includes(post.user.toLowerCase()) ? '<span class="friend-tag">Friend</span>' : ''}</div>
-                        <div class="post-body-text">${post.text}</div>
-                    </div>`;
-            });
-        }
-    </script>
-</body>
-</html>
