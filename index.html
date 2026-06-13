@@ -17,11 +17,11 @@
             color: #0f1419;
         }
         
-        /* Fixed Header Grid Layout - Stops Text Clipping completely */
         .logo-container { 
             margin: 25px 0; text-align: center; transition: all 0.3s ease;
+            min-height: 60px;
         }
-        .logo-container img { width: 190px; height: auto; }
+        .logo-container img { width: 190px; height: auto; display: block; margin: 0 auto; }
 
         body.on-platform .logo-container {
             position: relative;
@@ -33,7 +33,7 @@
             justify-content: flex-start;
             text-align: left;
         }
-        body.on-platform .logo-container img { width: 120px; }
+        body.on-platform .logo-container img { width: 120px; margin: 0; }
 
         .container { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; width: 100%; max-width: 480px; padding: 24px; box-sizing: border-box; }
         .hidden { display: none !important; }
@@ -49,14 +49,11 @@
         input:focus, select:focus, textarea:focus { border-color: #4364F7; box-shadow: 0 0 0 3px rgba(67,100,247,0.08); }
         .error-msg { color: #f4212e; font-size: 14px; margin-top: -6px; width: 90%; font-weight: 500; }
         
-        /* Modern Floaty Section Cards */
         .app-card { background: #ffffff; padding: 22px; border-radius: 24px; width: 94%; box-sizing: border-box; box-shadow: 0 10px 30px rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.01); margin-bottom: 20px; }
         
-        /* Network Connection Dashboard styling */
         .friend-row { display: flex; align-items: center; justify-content: space-between; background: #f7f9fa; padding: 10px 14px; border-radius: 14px; margin-top: 8px; width: 100%; box-sizing: border-box; }
         .friend-info { font-weight: 700; font-size: 14px; color: #0f1419; }
 
-        /* Stories Row Layout updates */
         .trending-wrapper { width: 94%; margin-bottom: 20px; text-align: left; }
         .trending-title { font-size: 13px; font-weight: 800; color: #536471; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.8px; }
         .trending-container { display: flex; gap: 14px; overflow-x: auto; width: 100%; padding-bottom: 10px; scrollbar-width: none; }
@@ -64,4 +61,398 @@
         
         .story-card { flex: 0 0 95px; height: 130px; background: linear-gradient(145deg, #1e293b, #0f172a); border-radius: 16px; display: flex; flex-direction: column; justify-content: flex-end; padding: 12px; box-sizing: border-box; color: #ffffff; font-size: 12px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 14px rgba(0,0,0,0.1); position: relative; overflow: hidden; }
         .story-username { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .story-likes { font-size: 10px; background: rgba(255,
+        .story-likes { font-size: 10px; background: rgba(255, 255, 255, 0.2); padding: 2px 6px; border-radius: 20px; width: fit-content; margin-top: 4px; backdrop-filter: blur(4px); }
+
+        .feed-container { width: 100%; display: flex; flex-direction: column; gap: 20px; }
+        .post-card { background: #ffffff; border-radius: 24px; padding: 22px; text-align: left; width: 94%; margin: 0 auto; box-sizing: border-box; box-shadow: 0 8px 25px rgba(0,0,0,0.02); border: 1px solid rgba(0,0,0,0.01); position: relative; }
+        .post-header { font-weight: 800; margin-bottom: 10px; color: #0f1419; font-size: 15px; display: flex; align-items: center; justify-content: space-between; }
+        .friend-tag { background: #e8f5fe; color: #1d9bf0; font-size: 11px; padding: 3px 8px; border-radius: 10px; font-weight: 700; }
+        .post-body-text { font-size: 17px; line-height: 1.5; white-space: pre-wrap; word-break: break-word; color: #0f1419; margin-bottom: 4px; }
+        
+        .media-container { width: 100%; border-radius: 16px; overflow: hidden; margin-top: 12px; background-color: #000000; }
+        .post-media { width: 100%; height: auto; max-height: 440px; display: block; object-fit: contain; }
+        
+        .post-actions { display: flex; align-items: center; margin-top: 16px; padding-top: 12px; border-top: 1px solid #f7f9fa; }
+        .like-btn { background: #f7f9fa; border: none; cursor: pointer; font-size: 16px; padding: 8px 16px; display: flex; align-items: center; gap: 6px; border-radius: 20px; font-weight: 700; transition: background-color 0.15s; }
+        .like-btn.liked { background-color: #ffe9eb; color: #f4212e; }
+    </style>
+</head>
+<body>
+
+    <!-- Dynamic Header -->
+    <div class="logo-container" id="main-logo-wrap">
+        <img src="file_00000000f95871fa94e929d0d7969f29.png" alt="Turboshot Logo" onerror="this.src='1001333783.png';">
+    </div>
+
+    <!-- SCREEN 1: Entry Portal -->
+    <div id="landing-screen" class="container">
+        <button class="btn" onclick="switchScreen('form-screen')">Sign Up</button>
+        <button class="btn secondary-btn" onclick="switchScreen('login-screen')">Login</button>
+    </div>
+
+    <!-- SCREEN 2: Registration Panel -->
+    <div id="form-screen" class="container hidden">
+        <form id="signup-form" class="form-group" onsubmit="handleSignUp(event)">
+            <input type="text" id="username" placeholder="Choose Username" required>
+            <div id="username-error" class="error-msg"></div>
+            
+            <input type="text" id="fullname" placeholder="Name" required>
+            <input type="email" id="email" placeholder="Email" required>
+            
+            <input type="text" id="phone" placeholder="+91 XXXXXXXXXX" required>
+            <div id="phone-error" class="error-msg"></div>
+
+            <input type="password" id="password" placeholder="Create Password" required>
+            <button type="submit" class="btn">Complete</button>
+            <a href="#" style="font-size: 14px; color: #536471; text-decoration: none; font-weight: 600;" onclick="switchScreen('login-screen')">Log In instead</a>
+        </form>
+    </div>
+
+    <!-- SCREEN 3: Gateway Login Check -->
+    <div id="login-screen" class="container hidden">
+        <form id="login-form" class="form-group" onsubmit="handleLogin(event)">
+            <input type="text" id="login-identity" placeholder="Username or Email" required>
+            <input type="password" id="login-password" placeholder="Enter Password" required>
+            <div id="login-error" class="error-msg"></div>
+
+            <button type="submit" class="btn">Sign In</button>
+            <a href="#" style="font-size: 14px; color: #536471; text-decoration: none; font-weight: 600;" onclick="switchScreen('form-screen')">Create Account instead</a>
+        </form>
+    </div>
+
+    <!-- SCREEN 4: Onboarding Welcome Splash -->
+    <div id="thankyou-screen" class="container hidden">
+        <h1 style="font-size: 32px; font-weight: 900; margin-bottom: 20px; letter-spacing: -0.8px;">Welcome</h1>
+        <button class="btn" onclick="goToPlatform()">Continue</button>
+    </div>
+
+    <!-- SCREEN 5: Main Feed UI Layer -->
+    <div id="platform-screen" class="container hidden" style="max-width: 580px; padding: 12px;">
+        <h2 id="welcome-banner" style="font-size: 24px; font-weight: 900; letter-spacing: -0.6px; width: 94%; text-align: left; margin: 0 0 15px 0;">Feed</h2>
+        
+        <!-- Connections Management System -->
+        <div class="app-card" style="padding: 18px;">
+            <div style="font-size: 14px; font-weight: 800; color: #536471; text-transform: uppercase; margin-bottom: 10px; text-align: left; letter-spacing: 0.5px;">🤝 Network Connections</div>
+            <div style="display: flex; gap: 8px; width: 100%;">
+                <input type="text" id="friend-search-input" placeholder="Enter user's username..." style="padding: 10px; font-size: 14px; text-align: left; width: 75%;">
+                <button class="btn" onclick="sendFriendRequest()" style="padding: 10px 16px; font-size: 14px; border-radius: 12px; width: 25%;">Add</button>
+            </div>
+            <div id="friend-requests-box" style="margin-top: 10px; width: 100%;"></div>
+        </div>
+
+        <div class="trending-wrapper">
+            <div class="trending-title">🔥 Trending Loop</div>
+            <div id="trending-stories-row" class="trending-container"></div>
+        </div>
+        
+        <!-- Creator Composition Dashboard -->
+        <div class="app-card">
+            <textarea id="post-text" placeholder="What's happening flash fast?" rows="3" required style="width:100%; border:none; padding: 5px; text-align: left; resize: none; font-size: 17px;"></textarea>
+            
+            <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 10px;">
+                <select id="post-font" style="width:100%; text-align-last: center;">
+                    <option value="-apple-system, sans-serif">Modern Default Font</option>
+                    <option value="'Courier New', monospace">Retro Code Font</option>
+                    <option value="'Georgia', serif">Elegant Story Font</option>
+                    <option value="'Impact', sans-serif">Bold Trend Font</option>
+                </select>
+
+                <label style="width:100%; display: flex; align-items: center; justify-content: center; gap: 8px; background-color: #f7f9fa; border: 1px solid #e1e8ed; padding: 12px; border-radius: 12px; cursor: pointer; font-weight: 700; font-size: 14px; box-sizing: border-box;">
+                    📁 <span>Choose File</span>
+                    <input type="file" id="post-file-field" accept="image/*,video/*" style="display: none;" onchange="handleLocalFileSelection()">
+                </label>
+                <div id="file-preview-status" style="font-size: 12px; color: #1d9bf0; font-weight: 700; text-align: center; display: none;"></div>
+
+                <select id="post-audio" style="display: none;">
+                    <option value="">None</option>
+                    <option value="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" selected>Ambient Loop Engine</option>
+                </select>
+            </div>
+
+            <button class="btn" onclick="createPost()" style="width: 100%; margin-top: 15px; border-radius: 16px; padding: 12px;">Post to Turboshot</button>
+        </div>
+
+        <div id="feed" class="feed-container"></div>
+    </div>
+
+    <script>
+        const BACKEND_URL = 'https://turboshot-platform.vercel.app/api/signup';
+
+        let currentLoggedUser = '';
+        let localLikedPostIDs = []; 
+        let temporaryEncodedMediaData = ''; 
+        let friendsList = [];
+
+        function switchScreen(screenId) {
+            document.getElementById('landing-screen').classList.add('hidden');
+            document.getElementById('form-screen').classList.add('hidden');
+            document.getElementById('login-screen').classList.add('hidden');
+            document.getElementById('thankyou-screen').classList.add('hidden');
+            document.getElementById(screenId).classList.remove('hidden');
+        }
+
+        function handleLocalFileSelection() {
+            const file = document.getElementById('post-file-field').files[0];
+            const statusDiv = document.getElementById('file-preview-status');
+            if (!file) return;
+
+            statusDiv.style.display = "block";
+            statusDiv.innerText = `📎 Attached: ${file.name}`;
+
+            const reader = new FileReader();
+            reader.onload = function(e) { temporaryEncodedMediaData = e.target.result; };
+            reader.readAsDataURL(file);
+        }
+
+        async function handleSignUp(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value.trim();
+            const fullname = document.getElementById('fullname').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const password = document.getElementById('password').value;
+
+            const cleanPhone = phone.replace(/\s+/g, '');
+            if (!/^\+\d{9,15}$/.test(cleanPhone)) {
+                document.getElementById('phone-error').innerText = "Provide valid country code format.";
+                return;
+            }
+
+            try {
+                const response = await fetch(`${BACKEND_URL}?action=register`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, fullname, email, phone: cleanPhone, password })
+                });
+                const data = await response.json();
+                if (!response.ok) { document.getElementById('username-error').innerText = data.error; return; }
+                currentLoggedUser = data.username;
+                switchScreen('thankyou-screen');
+            } catch (err) {
+                currentLoggedUser = username;
+                switchScreen('thankyou-screen');
+            }
+        }
+
+        async function handleLogin(event) {
+            event.preventDefault();
+            const identity = document.getElementById('login-identity').value.trim();
+            const password = document.getElementById('login-password').value;
+            if (!identity || !password) return;
+            try {
+                const response = await fetch(`${BACKEND_URL}?action=login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ identity, password })
+                });
+                const data = await response.json();
+                if (!response.ok) { document.getElementById('login-error').innerText = data.error; return; }
+                currentLoggedUser = data.username;
+                goToPlatform();
+            } catch (err) {
+                currentLoggedUser = identity.split('@')[0];
+                goToPlatform();
+            }
+        }
+
+        function goToPlatform() {
+            document.body.classList.add('on-platform');
+            document.getElementById('welcome-banner').innerText = `⚡ @${currentLoggedUser}`;
+            
+            document.getElementById('thankyou-screen').classList.add('hidden');
+            document.getElementById('login-screen').classList.add('hidden');
+            document.getElementById('platform-screen').classList.remove('hidden');
+            
+            friendsList = JSON.parse(localStorage.getItem(`friends_${currentLoggedUser}`) || '[]');
+            
+            renderFeed();
+            renderFriendRequests();
+            setInterval(() => { renderFeed(); renderFriendRequests(); }, 4000);
+        }
+
+        function sendFriendRequest() {
+            const targetUser = document.getElementById('friend-search-input').value.trim().toLowerCase();
+            if (!targetUser || targetUser === currentLoggedUser.toLowerCase()) return;
+
+            let currentRequests = JSON.parse(localStorage.getItem(`requests_${targetUser}`) || '[]');
+            if (!currentRequests.includes(currentLoggedUser)) {
+                currentRequests.push(currentLoggedUser);
+                localStorage.setItem(`requests_${targetUser}`, JSON.stringify(currentRequests));
+            }
+            document.getElementById('friend-search-input').value = '';
+            alert(`Friend request sent to @${targetUser}!`);
+        }
+
+        function renderFriendRequests() {
+            const box = document.getElementById('friend-requests-box');
+            let incoming = JSON.parse(localStorage.getItem(`requests_${currentLoggedUser.toLowerCase()}`) || '[]');
+            box.innerHTML = '';
+
+            if (incoming.length === 0 && friendsList.length === 0) {
+                box.innerHTML = `<div style="font-size:12px; color:#888; text-align:left;">No pending connections. Add friends to build your close network feed!</div>`;
+                return;
+            }
+
+            incoming.forEach(user => {
+                box.innerHTML += `
+                    <div class="friend-row">
+                        <span class="friend-info">📩 Request from @${user}</span>
+                        <div>
+                            <button class="btn action-btn" onclick="acceptFriend('${user}')">Accept</button>
+                            <button class="btn action-btn reject-btn" onclick="rejectFriend('${user}')">Reject</button>
+                        </div>
+                    </div>`;
+            });
+
+            friendsList.forEach(friend => {
+                box.innerHTML += `
+                    <div class="friend-row" style="background: #e8f5fe;">
+                        <span class="friend-info" style="color: #1d9bf0;">👤 Connected Friend: @${friend}</span>
+                    </div>`;
+            });
+        }
+
+        function acceptFriend(user) {
+            let incoming = JSON.parse(localStorage.getItem(`requests_${currentLoggedUser.toLowerCase()}`) || '[]');
+            localStorage.setItem(`requests_${currentLoggedUser.toLowerCase()}`, JSON.stringify(incoming.filter(u => u !== user)));
+
+            if (!friendsList.includes(user)) {
+                friendsList.push(user);
+                localStorage.setItem(`friends_${currentLoggedUser}`, JSON.stringify(friendsList));
+                
+                let targetFriends = JSON.parse(localStorage.getItem(`friends_${user}`) || '[]');
+                if (!targetFriends.includes(currentLoggedUser)) {
+                    targetFriends.push(currentLoggedUser);
+                    localStorage.setItem(`friends_${user}`, JSON.stringify(targetFriends));
+                }
+            }
+            renderFriendRequests();
+            renderFeed();
+        }
+
+        function rejectFriend(user) {
+            let incoming = JSON.parse(localStorage.getItem(`requests_${currentLoggedUser.toLowerCase()}`) || '[]');
+            localStorage.setItem(`requests_${currentLoggedUser.toLowerCase()}`, JSON.stringify(incoming.filter(u => u !== user)));
+            renderFriendRequests();
+        }
+
+        async function createPost() {
+            const text = document.getElementById('post-text').value.trim();
+            const font = document.getElementById('post-font').value;
+            const audioUrl = 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3';
+
+            if (!text) return;
+
+            try {
+                const signatureID = 'id_' + Math.random().toString(36).substr(2, 9);
+                await fetch(`${BACKEND_URL}?action=createPost`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ user: currentLoggedUser, text, font, mediaUrl: temporaryEncodedMediaData, audioUrl, id: signatureID, likes: 0 })
+                });
+
+                document.getElementById('post-text').value = '';
+                document.getElementById('post-file-field').value = '';
+                document.getElementById('file-preview-status').style.display = "none";
+                temporaryEncodedMediaData = ''; 
+                renderFeed();
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+        async function toggleLike(postId) {
+            const isLiked = localLikedPostIDs.includes(postId);
+            localLikedPostIDs = isLiked ? localLikedPostIDs.filter(id => id !== postId) : [...localLikedPostIDs, postId];
+
+            try {
+                await fetch(`${BACKEND_URL}?action=likePost`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id: postId, increment: !isLiked })
+                });
+                renderFeed();
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+        async function renderFeed() {
+            const feed = document.getElementById('feed');
+            const storiesRow = document.getElementById('trending-stories-row');
+            
+            try {
+                const res = await fetch(`${BACKEND_URL}?action=getPosts`);
+                let posts = await res.json();
+                
+                posts.sort((a, b) => {
+                    const aIsFriend = friendsList.includes(a.user) ? 1 : 0;
+                    const bIsFriend = friendsList.includes(b.user) ? 1 : 0;
+                    if (aIsFriend !== bIsFriend) return bIsFriend - aIsFriend;
+                    return (b.likes || 0) - (a.likes || 0);
+                });
+
+                storiesRow.innerHTML = '';
+                const trendingSelection = posts.slice(0, 6);
+                
+                if (trendingSelection.length === 0) {
+                    storiesRow.innerHTML = `<div style="font-size:12px; color:#536471; padding: 10px; font-weight:600;">Waiting for first live trend...</div>`;
+                } else {
+                    trendingSelection.forEach(post => {
+                        storiesRow.innerHTML += `
+                            <div class="story-card" onclick="document.getElementById('${post.id}').scrollIntoView({behavior: 'smooth'})">
+                                <div class="story-username">@${post.user}</div>
+                                <div class="story-likes">❤️ ${post.likes || 0}</div>
+                            </div>
+                        `;
+                    });
+                }
+
+                feed.innerHTML = '';
+                posts.forEach(post => {
+                    let mediaElement = '';
+                    if (post.mediaUrl) {
+                        if (post.mediaUrl.includes('data:video/') || post.mediaUrl.match(/\.(mp4|webm|ogg)/i)) {
+                            mediaElement = `
+                                <div class="media-container">
+                                    <video src="${post.mediaUrl}" autoplay loop muted playsinline class="post-media"></video>
+                                </div>`;
+                        } else {
+                            mediaElement = `
+                                <div class="media-container">
+                                    <img src="${post.mediaUrl}" class="post-media" alt="Post content">
+                                </div>`;
+                        }
+                    }
+
+                    let hiddenAmbientAudio = post.likes > 0 ? `<audio src="${post.audioUrl || 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3'}" autoplay loop style="display:none;"></audio>` : '';
+                    
+                    const isFriend = friendsList.includes(post.user);
+                    const friendBadge = isFriend ? `<span class="friend-tag">Close Connection</span>` : '';
+
+                    const isLiked = localLikedPostIDs.includes(post.id);
+                    const heartIcon = isLiked ? '❤️' : '🤍';
+                    const buttonClass = isLiked ? 'like-btn liked' : 'like-btn';
+
+                    feed.innerHTML += `
+                        <div class="post-card" id="${post.id}">
+                            <div class="post-header">
+                                <span style="font-weight:800; font-size:15px;">⚡ @${post.user}</span>
+                                ${friendBadge}
+                            </div>
+                            <div class="post-body-text" style="font-family: ${post.font};">${post.text}</div>
+                            ${mediaElement}
+                            ${hiddenAmbientAudio}
+                            <div class="post-actions">
+                                <button class="${buttonClass}" onclick="toggleLike('${post.id}')"><span>${heartIcon}</span> <span style="font-size:14px; margin-left:4px;">${post.likes || 0}</span></button>
+                            </div>
+                        </div>
+                    `;
+                });
+            } catch (err) {
+                console.error("Error updating feed:", err);
+            }
+        }
+    </script>
+</body>
+</html>
