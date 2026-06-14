@@ -17,11 +17,9 @@
             color: #0f1419;
         }
         
-        /* Master Layout Grid Constraints */
         .container { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; width: 100%; max-width: 480px; padding: 24px; box-sizing: border-box; }
         .hidden { display: none !important; }
 
-        /* Navigation Logo Spacing Systems */
         .logo-container { 
             margin: 25px 0; text-align: center; transition: all 0.3s ease;
             min-height: 60px;
@@ -36,14 +34,12 @@
         }
         body.on-platform .logo-container img { width: 120px; margin: 0; }
 
-        /* Top-Left Floating Friend Drawer Overlay */
         .top-left-nav { position: fixed; top: 15px; left: 15px; z-index: 9999; }
         .nav-bell-btn { background-color: #1d9bf0; color: #ffffff; border: none; padding: 10px 18px; font-size: 14px; font-weight: 800; border-radius: 25px; cursor: pointer; box-shadow: 0 4px 12px rgba(29, 155, 240, 0.3); }
         
         .friend-overlay-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.4); display: flex; align-items: center; justify-content: center; z-index: 10000; }
         .modal-box-card { background: #ffffff; width: 90%; max-width: 400px; padding: 24px; border-radius: 24px; box-shadow: 0 15px 40px rgba(0,0,0,0.15); }
 
-        /* Premium Social Component Actions UI Cards */
         .btn { background-color: #000000; color: #ffffff; border: none; padding: 14px 32px; font-size: 16px; font-weight: 700; border-radius: 30px; cursor: pointer; transition: transform 0.2s, background-color 0.2s; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
         .btn:hover { transform: scale(1.02); background-color: #1a1a1a; }
         .secondary-btn { background-color: #ffffff; color: #000000; border: 2px solid #000000; margin-top: 14px; box-shadow: none; }
@@ -59,7 +55,6 @@
         .friend-row { display: flex; align-items: center; justify-content: space-between; background: #f7f9fa; padding: 10px 14px; border-radius: 14px; margin-top: 8px; width: 100%; box-sizing: border-box; }
         .friend-info { font-weight: 700; font-size: 14px; color: #0f1419; }
 
-        /* TikTok Style Trending Slider Systems */
         .trending-wrapper { width: 94%; margin-bottom: 20px; text-align: left; }
         .trending-title { font-size: 13px; font-weight: 800; color: #536471; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.8px; }
         .trending-container { display: flex; gap: 14px; overflow-x: auto; width: 100%; padding-bottom: 10px; scrollbar-width: none; }
@@ -69,7 +64,6 @@
         .story-username { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .story-likes { font-size: 10px; background: rgba(255, 255, 255, 0.2); padding: 2px 6px; border-radius: 20px; width: fit-content; margin-top: 4px; backdrop-filter: blur(4px); }
 
-        /* Stream Timeline Post Structures */
         .feed-container { width: 100%; display: flex; flex-direction: column; gap: 20px; }
         .post-card { background: #ffffff; border-radius: 24px; padding: 22px; text-align: left; width: 94%; margin: 0 auto; box-sizing: border-box; box-shadow: 0 8px 25px rgba(0,0,0,0.02); border: 1px solid rgba(0,0,0,0.01); position: relative; }
         .post-header { font-weight: 800; margin-bottom: 10px; color: #0f1419; font-size: 15px; display: flex; align-items: center; justify-content: space-between; }
@@ -197,7 +191,6 @@
         let alertsList = [];
         let clearNotificationTimer = null;
 
-        // Secure state validator checks local cached records on initialization safely
         document.addEventListener("DOMContentLoaded", () => {
             try {
                 const cachedUser = localStorage.getItem("turboshot_cached_user");
@@ -252,18 +245,18 @@
             }
         }
 
-        function sendFriendRequest() {
+        async function sendFriendRequest() {
             try {
                 const targetUser = document.getElementById('friend-search-input').value.trim().toLowerCase();
                 const currentUserClean = currentLoggedUser.trim().toLowerCase();
                 
                 if (!targetUser || targetUser === currentUserClean) return;
 
-                let currentRequests = JSON.parse(localStorage.getItem(`requests_${targetUser}`) || '[]');
-                if (!currentRequests.includes(currentUserClean)) {
-                    currentRequests.push(currentUserClean);
-                    localStorage.setItem(`requests_${targetUser}`, JSON.stringify(currentRequests));
-                }
+                await fetch(`${BACKEND_URL}?action=sendFriendRequest`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ fromUser: currentLoggedUser, toUser: targetUser })
+                });
                 document.getElementById('friend-search-input').value = '';
                 renderFriendRequests(true);
             } catch (err) {
@@ -274,25 +267,21 @@
         function hydrateFriendModalTray() {
             try {
                 const tray = document.getElementById('modal-requests-tray');
-                const currentUserClean = currentLoggedUser.trim().toLowerCase();
-                
-                let incoming = JSON.parse(localStorage.getItem(`requests_${currentUserClean}`) || '[]');
-                let alerts = JSON.parse(localStorage.getItem(`alerts_${currentUserClean}`) || '[]');
                 tray.innerHTML = '';
 
-                if (incoming.length === 0 && alerts.length === 0) {
+                if (incomingRequestsList.length === 0 && alertsList.length === 0) {
                     tray.innerHTML = `<div style="font-size:13px; color:#666; text-align:center; padding:10px;">No pending actions or notifications.</div>`;
                     return;
                 }
 
-                alerts.forEach(msg => {
+                alertsList.forEach(msg => {
                     tray.innerHTML += `
                         <div class="friend-row" style="background:#e8fdf5; border:1px solid #00ba7c;">
                             <span class="friend-info" style="font-size:12px; color:#00ba7c;">🔔 ${msg}</span>
                         </div>`;
                 });
 
-                incoming.forEach(user => {
+                incomingRequestsList.forEach(user => {
                     tray.innerHTML += `
                         <div class="friend-row">
                             <span class="friend-info" style="font-size:13px;">📩 Request from @${user}</span>
@@ -331,7 +320,6 @@
                 document.getElementById('global-nav-trig').classList.remove('hidden');
                 document.getElementById('welcome-banner').innerText = `⚡ @${currentLoggedUser}`;
                 
-                // FIXED SCREEN STATES: Ensures old view fields clear symmetrically out of sight
                 document.getElementById('landing-screen').classList.add('hidden');
                 document.getElementById('form-screen').classList.add('hidden');
                 document.getElementById('login-screen').classList.add('hidden');
@@ -362,21 +350,6 @@
             } catch (err) { console.error(err); }
         }
 
-        async function sendFriendRequest() {
-            const targetUser = document.getElementById('friend-search-input').value.trim().toLowerCase();
-            if (!targetUser || targetUser === currentLoggedUser.toLowerCase()) return;
-
-            try {
-                await fetch(`${BACKEND_URL}?action=sendFriendRequest`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ fromUser: currentLoggedUser, toUser: targetUser })
-                });
-                document.getElementById('friend-search-input').value = '';
-                renderFriendRequests(true);
-            } catch (err) { console.error(err); }
-        }
-
         function renderFriendRequests(showSentNotification) {
             try {
                 const box = document.getElementById('friend-requests-box');
@@ -402,39 +375,28 @@
             }
         }
 
-        function acceptFriend(user) {
+        // CRITICAL FIX: Added missing async declarations to solve function execution syntax drops
+        async function acceptFriend(user) {
             try {
-                const target = user.toLowerCase();
-                const me = currentLoggedUser.toLowerCase();
-                let incoming = JSON.parse(localStorage.getItem(`requests_${me}`) || '[]');
-                localStorage.setItem(`requests_${me}`, JSON.stringify(incoming.filter(u => u !== target)));
-                if (!friendsList.includes(target)) {
-                    friendsList.push(target);
-                    localStorage.setItem(`friends_${me}`, JSON.stringify(friendsList));
-                    let targetFriends = JSON.parse(localStorage.getItem(`friends_${target}`) || '[]');
-                    if (!targetFriends.includes(me)) { targetFriends.push(me); localStorage.setItem(`friends_${target}`, JSON.stringify(targetFriends)); }
-                }
-                let targetAlerts = JSON.parse(localStorage.getItem(`alerts_${target}`) || '[]');
-                targetAlerts.push(`@${me} accepted your request!`);
-                localStorage.setItem(`alerts_${target}`, JSON.stringify(targetAlerts));
-                hydrateFriendModalTray();
-                renderFriendRequests(false);
-                renderFeed();
+                await fetch(`${BACKEND_URL}?action=acceptFriend`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ fromUser: user, toUser: currentLoggedUser })
+                });
+                syncSocialEngineData();
             } catch (err) {
                 console.error("Acceptance linkage fault sync handler:", err);
             }
         }
 
-        function rejectFriend(user) {
+        async function rejectFriend(user) {
             try {
-                const target = user.toLowerCase();
-                const me = currentLoggedUser.toLowerCase();
-                let incoming = JSON.parse(localStorage.getItem(`requests_${me}`) || '[]');
-                localStorage.setItem(`requests_${me}`, JSON.stringify(incoming.filter(u => u !== target)));
-                let targetAlerts = JSON.parse(localStorage.getItem(`alerts_${target}`) || '[]');
-                targetAlerts.push(`@${me} declined your request.`);
-                localStorage.setItem(`alerts_${target}`, JSON.stringify(targetAlerts));
-                hydrateFriendModalTray();
+                await fetch(`${BACKEND_URL}?action=rejectFriend`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ fromUser: user, toUser: currentLoggedUser })
+                });
+                syncSocialEngineData();
             } catch (err) {
                 console.error("Rejection array compilation caught:", err);
             }
@@ -448,7 +410,7 @@
                 await fetch(`${BACKEND_URL}?action=createPost`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ user: currentLoggedUser, text, font: document.getElementById('post-font').value, mediaUrl: temporaryEncodedMediaData, audioUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3', id: signatureID, likes: 0 })
+                    body: JSON.stringify({ user: currentLoggedUser, text, font: document.getElementById('post-font').value, mediaUrl: temporaryEncodedMediaData, id: signatureID, likes: 0 })
                 });
                 document.getElementById('post-text').value = '';
                 document.getElementById('post-file-field').value = '';
