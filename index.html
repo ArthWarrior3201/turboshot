@@ -375,7 +375,6 @@
             }
         }
 
-        // CRITICAL FIX: Added missing async declarations to solve function execution syntax drops
         async function acceptFriend(user) {
             try {
                 await fetch(`${BACKEND_URL}?action=acceptFriend`, {
